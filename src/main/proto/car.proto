@@ -1,0 +1,54 @@
+syntax = "proto3";
+package com.example.service.carservice;
+
+service CarService {
+  rpc createCar (CreateCarRequest) returns (CarResponse) {}
+
+  rpc getCar (GetCarRequest) returns (CarResponse) {}
+
+  rpc deleteCar (DeleteCarRequest) returns (DeleteCarResponse) {}
+
+  rpc updateCar (UpdateCarRequest) returns (CarResponse) {}
+
+}
+
+message CreateCarRequest {
+  string model = 1;
+  string manufactureYear = 2;
+  string gearBox = 3;
+  int32 rentPrice = 4;
+  int32 seats = 5;
+  string pickUpLocation = 6;
+}
+
+message GetCarRequest {
+  string id = 1;
+}
+
+message CarResponse {
+  string id = 1;
+  string model = 2;
+  string manufactureYear = 3;
+  string gearBox = 4;
+  int32 rentPrice = 5;
+  int32 seats = 6;
+  string pickUpLocation = 7;
+}
+
+message DeleteCarRequest {
+  string id = 1;
+}
+
+message DeleteCarResponse {
+  bool success = 1;
+}
+
+message UpdateCarRequest {
+  string id = 1;
+  optional string model = 2;
+  optional string manufactureYear = 3;
+  optional string gearBox = 4;
+  optional int32 rentPrice = 5;
+  optional int32 seats = 6;
+  optional string pickUpLocation = 7;
+}
