@@ -2,14 +2,11 @@ version: '3.8'
 
 services:
   car-service:
-    image: ivanicov/car-management-service:1.0.1
+    image: ivanicov/car-management-service:2.0.3
     ports:
-      - "8080:8080"
+      - "9000:9000"
     depends_on:
       - mongo_db
-    environment:
-      SPRING_DATA_MONGODB_URI_MS: ${MONGO_DB_CONN_STRING}
-      SPRING_DATA_MONGODB_DATABASE_MS: ${MONGO_DB_DATABASE}
 
   mongo_db:
     image: mongo:7.0.6

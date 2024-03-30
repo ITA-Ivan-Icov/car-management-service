@@ -10,6 +10,8 @@ service CarService {
 
   rpc updateCar (UpdateCarRequest) returns (CarResponse) {}
 
+  rpc getAllCars (GetAllCarsRequest) returns (CarListResponse) {}
+
 }
 
 message CreateCarRequest {
@@ -51,4 +53,10 @@ message UpdateCarRequest {
   optional int32 rentPrice = 5;
   optional int32 seats = 6;
   optional string pickUpLocation = 7;
+}
+
+message GetAllCarsRequest {}
+
+message CarListResponse {
+  repeated CarResponse cars = 1;
 }

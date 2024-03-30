@@ -11,6 +11,9 @@ import org.bson.types.ObjectId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @GrpcService
 public class CarService extends CarServiceGrpc.CarServiceImplBase {
 
@@ -146,7 +149,33 @@ public class CarService extends CarServiceGrpc.CarServiceImplBase {
         }
     }
 
+    @Override
+    public void getAllCars(Car.GetAllCarsRequest request, StreamObserver<Car.CarListResponse> responseObserver) {
+        logger.info("Received getAllCars request");
 
+        List<com.example.model.Car> cars = carRepository.listAll();
+        List<Car.CarResponse> carResponses = cars.stream()
+                .map(this::mapCarToResponse)
+                .collect(Collectors.toList());
 
+        Car.CarListResponse response = Car.CarListResponse.newBuilder()
+                .addAllCars(carResponses)
+                .build();
 
+        responseObserver.onNext(response);
+        responseObserver.onCompleted();
+        logger.info("Sending getAllCars response with {} cars", cars.size());
+    }
+
+    private Car.CarResponse mapCarToResponse(com.example.model.Car car) {
+        return Car.CarResponse.newBuilder()
+                .setId(car.getId().toHexString())
+                .setModel(car.getModel())
+                .setManufactureYear(car.getManufactureYear())
+                .setGearBox(car.getGearBox())
+                .setRentPrice(car.getRentPrice())
+                .setSeats(car.getSeats())
+                .setPickUpLocation(car.getPickUpLocation())
+                .build();
+    }
 }
